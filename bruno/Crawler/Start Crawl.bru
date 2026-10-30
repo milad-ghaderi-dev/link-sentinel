@@ -1,0 +1,32 @@
+meta {
+  name: Start Crawl Job
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/crawl
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "name": "Fast Go Crawl",
+    "url": "https://go.dev",
+    "max_pages": 30
+  }
+}
+
+script:post-response {
+  if (res.body && res.body.job_id) {
+    bru.setEnvVar("jobId", res.body.job_id);
+  }
+  if (res.body && res.body.project_id) {
+    bru.setEnvVar("projectId", res.body.project_id);
+  }
+}

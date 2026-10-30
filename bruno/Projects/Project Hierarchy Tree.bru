@@ -1,0 +1,15 @@
+meta {
+  name: Get Project Hierarchy Tree
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/api/projects/{{projectId}}/tree
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

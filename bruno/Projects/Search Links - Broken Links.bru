@@ -1,0 +1,23 @@
+meta {
+  name: Search Links - Broken & Forbidden
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/api/projects/{{projectId}}/search
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "custom_statuses": [14, 17],
+    "limit": 50,
+    "offset": 0
+  }
+}

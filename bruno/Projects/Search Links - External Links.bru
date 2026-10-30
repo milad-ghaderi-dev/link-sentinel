@@ -1,0 +1,23 @@
+meta {
+  name: Search Links - External Links
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/api/projects/{{projectId}}/search
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "link_type": "external",
+    "limit": 50,
+    "offset": 0
+  }
+}

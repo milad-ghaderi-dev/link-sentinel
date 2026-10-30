@@ -1,0 +1,43 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: sentinel_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: sentinel_user
+      POSTGRES_PASSWORD: sentinel_password
+      POSTGRES_DB: sentinel_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sentinel_user -d sentinel_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build: .
+    container_name: sentinel_api
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    dns:
+      - 8.8.8.8
+      - 1.1.1.1
+    environment:
+      SERVER_PORT: 8080
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: sentinel_user
+      DB_PASSWORD: sentinel_password
+      DB_NAME: sentinel_db
+      DB_SSLMODE: disable
+      JWT_SECRET: super_secret_jwt_key_link_sentinel_2026
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  postgres_data:

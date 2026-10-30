@@ -1,0 +1,22 @@
+meta {
+  name: Search Links - Pagination Page 2
+  type: http
+  seq: 8
+}
+
+post {
+  url: {{baseUrl}}/api/projects/{{projectId}}/search
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "limit": 10,
+    "offset": 10
+  }
+}
